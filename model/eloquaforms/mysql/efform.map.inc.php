@@ -12,6 +12,8 @@ $xpdo_meta_map['efForm']= array (
     'header' => '',
     'formid' => '',
     'channel' => '',
+    'method' => '',
+    'action' => '',
     'formcode' => NULL,
     'jscode' => NULL,
     'copy' => NULL,
@@ -70,6 +72,22 @@ $xpdo_meta_map['efForm']= array (
       'default' => '',
     ),
     'channel' => 
+    array (
+      'dbtype' => 'varchar',
+      'precision' => '255',
+      'phptype' => 'string',
+      'null' => false,
+      'default' => '',
+    ),
+    'method' => 
+    array (
+      'dbtype' => 'varchar',
+      'precision' => '255',
+      'phptype' => 'string',
+      'null' => false,
+      'default' => '',
+    ),
+    'action' => 
     array (
       'dbtype' => 'varchar',
       'precision' => '255',
@@ -226,6 +244,14 @@ $xpdo_meta_map['efForm']= array (
     'ContactPoint' => 
     array (
       'class' => 'efContactPoint',
+      'local' => 'id',
+      'foreign' => 'form',
+      'cardinality' => 'many',
+      'owner' => 'local',
+    ),
+    'ResourceRelation' => 
+    array (
+      'class' => 'efResourceRelation',
       'local' => 'id',
       'foreign' => 'form',
       'cardinality' => 'many',

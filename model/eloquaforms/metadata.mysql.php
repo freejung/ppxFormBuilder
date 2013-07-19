@@ -7,7 +7,8 @@ $xpdo_meta_map = array (
     1 => 'efField',
     2 => 'efContact',
     3 => 'efContactPoint',
-    4 => 'efValidationRule',
-    5 => 'efSkipRule',
+    4 => 'efResourceRelation',
+    5 => 'efValidationRule',
+    6 => 'efSkipRule',
   ),
 );

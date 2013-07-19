@@ -8,6 +8,8 @@
         <field key="header" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
         <field key="formid" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
         <field key="channel" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="method" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="action" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
         <field key="formcode" dbtype="text" phptype="string" />
         <field key="jscode" dbtype="text" phptype="string" />
         <field key="copy" dbtype="text" phptype="string" />
@@ -26,6 +28,7 @@
         <aggregate alias="EditedBy" class="modUser" local="editedby" foreign="id" cardinality="one" owner="foreign"/>
         <composite alias="Field" class="efField" local="id" foreign="form" cardinality="many" owner="local" />
         <composite alias="ContactPoint" class="efContactPoint" local="id" foreign="form" cardinality="many" owner="local" />
+        <composite alias="ResourceRelation" class="efResourceRelation" local="id" foreign="form" cardinality="many" owner="local" />
         <index alias="name" name="name" primary="false" unique="false" type="BTREE">
             <column key="name" length="" collation="A" null="false" />
         </index>
@@ -98,6 +101,19 @@
         </index>
         <index alias="contact" name="contact" primary="false" unique="false" type="BTREE">
             <column key="contact" length="" collation="A" null="false" />
+        </index>
+    </object>
+    
+    <object class="efResourceRelation" table="ef_resourcerelations" extends="xPDOSimpleObject">
+        <field key="form" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="resource" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <aggregate alias="Form" class="efForm" local="form" foreign="id" cardinality="one" owner="foreign" />
+        <aggregate alias="Resource" class="modResource" local="resource" foreign="id" cardinality="one" owner="foreign" />
+        <index alias="form" name="form" primary="false" unique="false" type="BTREE">
+            <column key="form" length="" collation="A" null="false" />
+        </index>
+        <index alias="resource" name="resource" primary="false" unique="false" type="BTREE">
+            <column key="resource" length="" collation="A" null="false" />
         </index>
     </object>
     

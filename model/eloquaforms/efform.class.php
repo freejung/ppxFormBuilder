@@ -38,6 +38,48 @@ class efForm extends xPDOSimpleObject {
 						$newField->addOne($this);
 						$newField->save();
 					}
+					$allTextAreas = $dom->getElementsByTagName('textarea');
+					foreach($allTextAreas as $textarea) {
+						$fieldValues = array();
+						$fieldValues['name'] = $textarea->getAttribute('name');
+						//$this->xpdo->log(modX::LOG_LEVEL_ERROR, 'input found, name= '.$fieldValues['name']);
+						$fieldValues['type'] = $textarea->getAttribute('type');
+						$fieldValues['element'] = 'textarea';
+						$fieldValues['dbname'] = $textarea->getAttribute('name');
+						$fieldValues['htmlId'] = $textarea->getAttribute('id');
+						$fieldValues['value'] = $textarea->getAttribute('value');
+						foreach($allLabels as $label){
+							//$this->xpdo->log(modX::LOG_LEVEL_ERROR, 'label for: '.$label->getAttribute('for'));
+							if($label->getAttribute('for') == $fieldValues['name']) {
+								$fieldValues['question'] = $label->nodeValue;
+								//$this->xpdo->log(modX::LOG_LEVEL_ERROR, 'field question: '.$label->nodevalue);
+							}
+						}
+						$newField = $this->xpdo->newObject('efField',$fieldValues);
+						$newField->addOne($this);
+						$newField->save();
+					}
+					$allSelects = $dom->getElementsByTagName('select');
+					foreach($allSelects as $select) {
+						$fieldValues = array();
+						$fieldValues['name'] = $select->getAttribute('name');
+						//$this->xpdo->log(modX::LOG_LEVEL_ERROR, 'input found, name= '.$fieldValues['name']);
+						$fieldValues['type'] = $select->getAttribute('type');
+						$fieldValues['element'] = 'select';
+						$fieldValues['dbname'] = $select->getAttribute('name');
+						$fieldValues['htmlId'] = $select->getAttribute('id');
+						$fieldValues['value'] = $select->getAttribute('value');
+						foreach($allLabels as $label){
+							//$this->xpdo->log(modX::LOG_LEVEL_ERROR, 'label for: '.$label->getAttribute('for'));
+							if($label->getAttribute('for') == $fieldValues['name']) {
+								$fieldValues['question'] = $label->nodeValue;
+								//$this->xpdo->log(modX::LOG_LEVEL_ERROR, 'field question: '.$label->nodevalue);
+							}
+						}
+						$newField = $this->xpdo->newObject('efField',$fieldValues);
+						$newField->addOne($this);
+						$newField->save();
+					}
 				}else{
 					$this->xpdo->log(modX::LOG_LEVEL_ERROR, 'Eloqua Forms could not parse form source code, no fields created');
 				}
