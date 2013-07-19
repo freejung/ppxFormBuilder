@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model package="eloquaforms" baseClass="xPDOObject" platform="mysql" defaultEngine="MyISAM" version="1.1">
+
+    <object class="efForm" table="ef_forms" extends="xPDOSimpleObject">
+        <field key="name" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="description" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="cta" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="header" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="formid" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="channel" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="formcode" dbtype="text" phptype="string" />
+        <field key="jscode" dbtype="text" phptype="string" />
+        <field key="copy" dbtype="text" phptype="string" />
+        <field key="extended" dbtype="text" phptype="json" null="false" default="" />
+        <field key="elqDLKey_Cookie" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="elqDLKey_Email" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="openQuestions" dbtype="int" precision="11" phptype="integer" null="true" />
+        <field key="fixedQuestions" dbtype="int" precision="11" phptype="integer" null="true" />
+        <field key="createdon" dbtype="datetime" phptype="datetime" null="true"/>
+        <field key="createdby" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="editedon" dbtype="datetime" phptype="datetime" null="true"/>
+        <field key="editedby" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="deleted" dbtype="tinyint" precision="1" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="published" dbtype="tinyint" precision="1" attributes="unsigned" phptype="integer" null="false" default="0" /> 
+        <aggregate alias="CreatedBy" class="modUser" local="createdby" foreign="id" cardinality="one" owner="foreign"/>
+        <aggregate alias="EditedBy" class="modUser" local="editedby" foreign="id" cardinality="one" owner="foreign"/>
+        <composite alias="Field" class="efField" local="id" foreign="form" cardinality="many" owner="local" />
+        <composite alias="ContactPoint" class="efContactPoint" local="id" foreign="form" cardinality="many" owner="local" />
+        <index alias="name" name="name" primary="false" unique="false" type="BTREE">
+            <column key="name" length="" collation="A" null="false" />
+        </index>
+        <index alias="formid" name="formid" primary="false" unique="false" type="BTREE">
+            <column key="formid" length="" collation="A" null="false" />
+        </index>
+    </object>
+    
+    <object class="efField" table="ef_fields" extends="xPDOSimpleObject">
+        <field key="form" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="name" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="dbname" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="element" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="type" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="prepop" dbtype="tinyint" precision="1" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="email" dbtype="tinyint" precision="1" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="honeytoken" dbtype="tinyint" precision="1" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="answer" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="channel" dbtype="tinyint" precision="1" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="htmlId" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="attributes" dbtype="text" phptype="string" />
+        <field key="value" dbtype="text" phptype="string" />
+        <field key="question" dbtype="text" phptype="string" />
+        <field key="subtext" dbtype="text" phptype="string" />
+        <field key="extended" dbtype="text" phptype="json" null="false" default="" />
+        <field key="createdon" dbtype="datetime" phptype="datetime" null="true"/>
+        <field key="createdby" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="editedon" dbtype="datetime" phptype="datetime" null="true"/>
+        <field key="editedby" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="deleted" dbtype="tinyint" precision="1" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="published" dbtype="tinyint" precision="1" attributes="unsigned" phptype="integer" null="false" default="0" /> 
+        <aggregate alias="CreatedBy" class="modUser" local="createdby" foreign="id" cardinality="one" owner="foreign"/>
+        <aggregate alias="EditedBy" class="modUser" local="editedby" foreign="id" cardinality="one" owner="foreign"/>
+        <aggregate alias="Form" class="efForm" local="form" foreign="id" cardinality="one" owner="foreign" />
+        <composite alias="validationRules" class="efValidationRule" local="id" foreign="field" cardinality="many" owner="local" />
+        <composite alias="skipRules" class="efSkipRule" local="id" foreign="field" cardinality="many" owner="local" />
+        <index alias="form" name="form" primary="false" unique="false" type="BTREE">
+            <column key="form" length="" collation="A" null="false" />
+        </index>
+    </object>
+    
+    <object class="efContact" table="ef_contacts" extends="xPDOSimpleObject">
+        <field key="name" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="category" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="phone" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="email" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="street" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="city" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="state" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="zip" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="extended" dbtype="text" phptype="json" null="false" default="" />
+        <field key="createdon" dbtype="datetime" phptype="datetime" null="true"/>
+        <field key="createdby" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="editedon" dbtype="datetime" phptype="datetime" null="true"/>
+        <field key="editedby" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="deleted" dbtype="tinyint" precision="1" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="published" dbtype="tinyint" precision="1" attributes="unsigned" phptype="integer" null="false" default="0" /> 
+        <aggregate alias="CreatedBy" class="modUser" local="createdby" foreign="id" cardinality="one" owner="foreign"/>
+        <aggregate alias="EditedBy" class="modUser" local="editedby" foreign="id" cardinality="one" owner="foreign"/>
+        <composite alias="ContactPoint" class="efContactPoint" local="id" foreign="contact" cardinality="many" owner="local" />
+    </object>
+    
+    <object class="efContactPoint" table="ef_contactpoints" extends="xPDOSimpleObject">
+        <field key="form" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="contact" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <aggregate alias="Form" class="efForm" local="form" foreign="id" cardinality="one" owner="foreign" />
+        <aggregate alias="Contact" class="efContact" local="contact" foreign="id" cardinality="one" owner="foreign" />
+        <index alias="form" name="form" primary="false" unique="false" type="BTREE">
+            <column key="form" length="" collation="A" null="false" />
+        </index>
+        <index alias="contact" name="contact" primary="false" unique="false" type="BTREE">
+            <column key="contact" length="" collation="A" null="false" />
+        </index>
+    </object>
+    
+    <object class="efValidationRule" table="ef_validationrules" extends="xPDOSimpleObject">
+        <field key="field" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="rule" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="parameter" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="depends" dbtype="text" phptype="string" />
+        <field key="extended" dbtype="text" phptype="json" null="false" default="" />
+        <field key="createdon" dbtype="datetime" phptype="datetime" null="true"/>
+        <field key="createdby" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="editedon" dbtype="datetime" phptype="datetime" null="true"/>
+        <field key="editedby" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="deleted" dbtype="tinyint" precision="1" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="published" dbtype="tinyint" precision="1" attributes="unsigned" phptype="integer" null="false" default="0" /> 
+        <aggregate alias="CreatedBy" class="modUser" local="createdby" foreign="id" cardinality="one" owner="foreign"/>
+        <aggregate alias="EditedBy" class="modUser" local="editedby" foreign="id" cardinality="one" owner="foreign"/>
+        <aggregate alias="Field" class="efField" local="field" foreign="id" cardinality="one" owner="foreign" />
+        <index alias="field" name="field" primary="false" unique="false" type="BTREE">
+            <column key="field" length="" collation="A" null="false" />
+        </index>
+    </object>
+    
+    <object class="efSkipRule" table="ef_skiprules" extends="xPDOSimpleObject">
+        <field key="field" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="depends" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="action" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="operator" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="condition" dbtype="text" phptype="string" />
+        <field key="extended" dbtype="text" phptype="json" null="false" default="" />
+        <field key="createdon" dbtype="datetime" phptype="datetime" null="true"/>
+        <field key="createdby" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="editedon" dbtype="datetime" phptype="datetime" null="true"/>
+        <field key="editedby" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="deleted" dbtype="tinyint" precision="1" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="published" dbtype="tinyint" precision="1" attributes="unsigned" phptype="integer" null="false" default="0" /> 
+        <aggregate alias="CreatedBy" class="modUser" local="createdby" foreign="id" cardinality="one" owner="foreign"/>
+        <aggregate alias="EditedBy" class="modUser" local="editedby" foreign="id" cardinality="one" owner="foreign"/>
+        <aggregate alias="Field" class="efField" local="field" foreign="id" cardinality="one" owner="foreign" />
+        <aggregate alias="Depends" class="efField" local="depends" foreign="id" cardinality="one" owner="foreign" />
+        <index alias="field" name="field" primary="false" unique="false" type="BTREE">
+            <column key="field" length="" collation="A" null="false" />
+        </index>
+        <index alias="depends" name="depends" primary="false" unique="false" type="BTREE">
+            <column key="depends" length="" collation="A" null="false" />
+        </index>
+    </object>
+  
+</model>
